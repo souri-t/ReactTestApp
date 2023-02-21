@@ -1,7 +1,27 @@
 
+import React, { useState } from "react";
+
+type CommonValue = {
+    id: number
+    name: string
+};
+
+type Log = {
+    date: Date,
+    applience: string,
+    command: string,
+    result : string
+}
 
 function Remote() {
-
+  const [appliances, setAppliances] = useState<CommonValue[]>([]);
+  const [commands, setCommands] = useState<CommonValue[]>([]);
+  const [applianceId, setApplianceId] = useState<string>("");
+  const [commandId, setCommandId] = useState<string>("");
+  const [logs, setLog] = useState<Log[]>([]);
+  const addLogs = (log: Log) => {
+      setLog([...logs, log])
+  }
   return (
     <main>
         <div id="content" style={{ padding:"10px;"}} className="table-responsive">
