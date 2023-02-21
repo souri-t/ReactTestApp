@@ -32,7 +32,13 @@ function Remote() {
                 <div className="col-sm-4">
                     <div className="">
                         <label className="control-label col-xs-2"><b>IR FileName:</b></label>
-                        <div className="col-xs-5">
+                          <div className="col-xs-5">
+                          <select className="form-control input-sm" onChange={(e) => setApplianceId(e.target.value)}>
+                                <option value="">-</option>
+                                {appliances.map((appliance) => (
+                                    <option key={appliance.id} value={appliance.id}>{appliance.name}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
                 </div>
