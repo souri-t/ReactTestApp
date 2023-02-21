@@ -50,8 +50,17 @@ function Remote() {
   }, [applianceId]);
 
   async function onClickButton() {
-    console.log(commandId);
-    addLogs({applience : "a", command : "c"} as Log)
+    fetch(`http://smarthome-server.local:5000/Remote/Send/${commandId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+
+    addLogs({applience : applianceId, command : commandId} as Log)
   }
 
   return (
@@ -95,28 +104,32 @@ function Remote() {
                     </div>
                 </div>
             </div>
+            <h3>Log</h3>
+            <div className="row">
+                <div className="col-sm-4">
+                  <table className="table table-striped table-sm table-hover table-responsive table-bordered" id='logtable'>
+                      <thead className="thead-light table-hover">
+                          <tr>
+                              <th align="left"><b>Date</b></th>
+                              <th align="left"><b>FileName</b></th>
+                              <th align="left"><b>Command</b></th>
+                              <th align="left"><b>Result</b></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {logs.map((log) => (
+                              <tr>
+                                  <td><div id="date"></div></td>
+                                  <td><div id="sendedfilename">{log.applience}</div></td>
+                                  <td><div id="sendedcommand">{log.command}</div></td>
+                                  <td><div id="result"></div></td>
+                              </tr>
+                          ))}
+                      </tbody>
+                  </table>
+              </div>
+            </div>
         </div>
-        <h3>Log</h3>
-        <table className="table table-striped table-sm table-hover table-responsive table-bordered" id='logtable'>
-            <thead className="thead-light table-hover">
-                <tr>
-                    <th align="left"><b>Date</b></th>
-                    <th align="left"><b>FileName</b></th>
-                    <th align="left"><b>Command</b></th>
-                    <th align="left"><b>Result</b></th>
-                </tr>
-            </thead>
-            <tbody>
-                {logs.map((log) => (
-                    <tr>
-                        <td><div id="date"></div></td>
-                        <td><div id="sendedfilename">{log.applience}</div></td>
-                        <td><div id="sendedcommand">{log.command}</div></td>
-                        <td><div id="result"></div></td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
     </main>
   )
 }
