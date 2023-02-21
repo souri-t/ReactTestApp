@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type CommonValue = {
     id: number
@@ -23,6 +23,15 @@ function Remote() {
   const addLogs = (log: Log) => {
       setLog([...logs, log])
   }
+
+  useEffect(() => {
+      const fetchData = async () => {
+          const responce = await fetch('https://smarthome-server.hasura.app/api/rest/remote/appliances');
+          setAppliances((await responce.json()).appliances);
+      };
+      fetchData();
+  }, []);
+
   return (
     <main>
         <div id="content" style={{ padding:"10px;"}} className="table-responsive">
